@@ -21,9 +21,9 @@ class Telegram:
     CHANNEL_ID = LOG_CHANNEL_ID
 
 class Server:
-    BASE_URL = "http://147.93.19.133:8000"
+    BASE_URL = "http://161.97.132.210:5000"
     BIND_ADDRESS = "0.0.0.0"
-    PORT = 8000
+    PORT = 5000
 
 templates = Jinja2Templates(directory="templates")
 
