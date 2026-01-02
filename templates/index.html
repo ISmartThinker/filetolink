@@ -8,27 +8,33 @@
     <meta name="author" content="Abir Arafat Chawdhury">
     <title>Smart Web Stream API</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
     <link rel="icon" href="https://i.ibb.co/Hh4kF2b/icon.png" type="image/x-icon">
     <link rel="shortcut icon" href="https://i.ibb.co/Hh4kF2b/icon.png" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta property="og:title" content="Smart Web Stream API">
+    <meta property="og:description" content="Premium streaming and downloading platform">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
     <style>
         :root {
-            --primary-color: #F0B90B;
-            --primary-hover: #d4a017;
-            --accent-color: #00C4B4;
-            --accent-hover: #00a89a;
-            --text-color: #1a1a1a;
-            --bg-color: #f8f9fa;
-            --card-bg: rgba(255, 255, 255, 0.92);
-            --glass-bg: rgba(255, 255, 255, 0.25);
-            --shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
-            --gradient-1: linear-gradient(135deg, #F0B90B 0%, #00C4B4 100%);
-            --gradient-2: linear-gradient(135deg, #00C4B4 0%, #F0B90B 100%);
-            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --primary-gold: #FFD700;
+            --primary-gold-dark: #FFB300;
+            --accent-cyan: #00FFF5;
+            --accent-cyan-dark: #00CCC4;
+            --accent-purple: #9D4EDD;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B8B8B8;
+            --text-muted: #6B7280;
+            --bg-dark: #0A0A0F;
+            --bg-darker: #050508;
+            --bg-card: #16161F;
+            --bg-card-hover: #1E1E2D;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --glow-gold: 0 0 30px rgba(255, 215, 0, 0.3);
+            --glow-cyan: 0 0 30px rgba(0, 255, 245, 0.3);
         }
 
         * {
@@ -38,572 +44,816 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(180deg, #f8f9fa, #e9ecef);
-            color: var(--text-color);
-            line-height: 1.5;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 20% 10%, rgba(157, 78, 221, 0.15) 0px, transparent 50%),
+                radial-gradient(at 80% 90%, rgba(0, 255, 245, 0.1) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(255, 215, 0, 0.05) 0px, transparent 50%);
+            color: var(--text-primary);
+            line-height: 1.6;
             overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .animated-bg span {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-purple));
+            animation: float 15s infinite ease-in-out;
+            opacity: 0.2;
+            filter: blur(60px);
+        }
+
+        .animated-bg span:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .animated-bg span:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            top: 60%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+
+        .animated-bg span:nth-child(3) {
+            width: 350px;
+            height: 350px;
+            bottom: 10%;
+            left: 50%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -50px) scale(1.1); }
+            66% { transform: translate(-30px, 30px) scale(0.9); }
         }
 
         .hero {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(233, 236, 239, 0.75));
-            padding: 4rem 0;
+            position: relative;
+            padding: 4rem 1rem 3rem;
             text-align: center;
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow);
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(20px);
             opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 1s ease-out forwards;
+            transform: translateY(30px);
+            animation: slideUp 0.8s ease-out forwards;
         }
 
-        .hero .developer-credit {
-            display: flex;
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-badge {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 0.75rem;
-            font-size: 1.1rem;
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-card-hover));
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 0.85rem;
             font-weight: 600;
-            margin-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--glow-cyan);
+            transition: all 0.3s ease;
         }
 
-        .hero .developer-credit img {
-            height: 24px;
-            transition: transform 0.3s ease;
+        .hero-badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(0, 255, 245, 0.4);
         }
 
-        .hero .developer-credit:hover img {
-            transform: scale(1.1);
+        .hero-badge img {
+            height: 22px;
+            animation: wave 2s infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            75% { transform: rotate(-10deg); }
         }
 
         .hero h1 {
-            font-size: 2.5rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--accent-cyan) 50%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            text-shadow: 0 0 80px rgba(255, 215, 0, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            font-weight: 500;
+            line-height: 1.7;
+            padding: 0 1rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: nowrap;
+            padding: 0 0.5rem;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-card-hover));
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            min-width: 100px;
+            flex: 1;
+            max-width: 160px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-gold);
+            box-shadow: var(--glow-gold);
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-gold), var(--accent-cyan));
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+            box-shadow: var(--glow-gold);
+        }
+
+        .stat-icon i {
+            font-size: 1.2rem;
+            color: var(--bg-dark);
+        }
+
+        .stat-number {
+            display: block;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
             font-weight: 800;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            background: linear-gradient(135deg, var(--primary-gold), var(--accent-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: clamp(0.65rem, 1.5vw, 0.8rem);
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .main-content {
+            padding: 3rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: slideUp 0.8s ease-out 0.2s forwards;
+        }
+
+        .features-section {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-card-hover));
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .features-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1), transparent);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .features-section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-gold), var(--accent-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            z-index: 1;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.75rem;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-6px);
+            border-color: var(--primary-gold);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.2);
+        }
+
+        .feature-icon {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
+            border-radius: 14px;
+            font-size: 1.5rem;
+            margin: 0 auto 1.25rem;
+            box-shadow: 0 8px 20px rgba(157, 78, 221, 0.3);
+        }
+
+        .feature-icon i {
+            color: var(--text-primary);
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .api-docs {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-card-hover));
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .api-docs h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-gold), var(--accent-cyan));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
 
-        .hero p {
-            font-size: 1.15rem;
-            color: #6c757d;
-            max-width: 520px;
-            margin: 0.75rem auto 1.5rem;
-        }
-
-        .hero .btn {
-            background: var(--primary-color);
-            color: #fff;
-            font-weight: 600;
-            padding: 0.65rem 1.3rem;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            box-shadow: var(--shadow);
-        }
-
-        .hero .btn:hover {
-            background: var(--primary-hover);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .hero .btn i {
-            font-size: 1.2rem;
-        }
-
-        .features {
-            padding: 3rem 1rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            opacity: 0;
-            animation: fadeIn 1s ease-out 0.3s forwards;
-        }
-
-        .features h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .feature-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            padding: 1.5rem;
-            border-radius: 14px;
-            box-shadow: var(--shadow);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            margin-bottom: 1.5rem;
-            position: relative;
-            cursor: pointer;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-            border-color: rgba(0, 196, 180, 0.4);
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 1.5rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            position: relative;
-        }
-
-        .feature-icon::before {
-            content: '';
-            position: absolute;
-            inset: -8px;
-            border-radius: 50%;
-            background: inherit;
-            filter: blur(20px);
-            opacity: 0.5;
-        }
-
-        .feature-icon i {
-            position: relative;
-            z-index: 1;
-            color: #fff;
-        }
-
-        .feature-card h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-            text-align: center;
-        }
-
-        .feature-card p {
-            font-size: 1rem;
-            color: #4a4a4a;
-            text-align: center;
-        }
-
-        .feature-popup {
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%) translateY(10px);
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            padding: 1rem;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-            width: 90%;
-            max-width: 300px;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            color: var(--text-color);
-            font-size: 0.95rem;
-            text-align: center;
-        }
-
-        .feature-card:hover .feature-popup {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .api-docs {
-            padding: 3rem 1rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            opacity: 0;
-            animation: fadeIn 1s ease-out 0.6s forwards;
-        }
-
-        .api-docs h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
         .accordion-item {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border: none;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-            box-shadow: var(--shadow);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
         }
 
         .accordion-button {
             background: transparent;
-            color: var(--text-color);
+            color: var(--text-primary);
             font-weight: 600;
-            font-size: 1.1rem;
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
-            transition: all 0.3s ease;
+            padding: 1.5rem;
+            border-radius: 16px;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1rem;
         }
 
         .accordion-button:not(.collapsed) {
-            background: var(--accent-color);
-            color: #fff;
-            box-shadow: none;
+            background: linear-gradient(135deg, var(--accent-cyan-dark), var(--accent-purple));
+            color: var(--bg-dark);
         }
 
-        .accordion-button:focus {
-            box-shadow: none;
-            border: none;
+        .accordion-button::after {
+            filter: brightness(10);
         }
 
-        .accordion-button .api-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+        .api-method-icon {
+            width: 45px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
-            position: relative;
+            background: linear-gradient(135deg, var(--primary-gold), var(--accent-cyan));
+            border-radius: 12px;
+            font-size: 1.3rem;
+            box-shadow: var(--glow-gold);
         }
 
-        .accordion-button .api-icon::before {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            border-radius: 50%;
-            background: inherit;
-            filter: blur(10px);
-            opacity: 0.5;
-        }
-
-        .accordion-button .api-icon i {
-            position: relative;
-            z-index: 1;
-            color: #fff;
-        }
-
-        .accordion-button:not(.collapsed) .api-icon i {
-            color: #fff;
+        .api-method-icon i {
+            color: var(--bg-dark);
         }
 
         .accordion-body {
-            padding: 1.5rem;
-            font-size: 0.95rem;
-            color: #4a4a4a;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.2);
+            color: var(--text-secondary);
         }
 
         .accordion-body pre {
-            background: #f1f3f5;
+            background: var(--bg-darker);
             padding: 1rem;
-            border-radius: 8px;
+            border-radius: 10px;
+            color: var(--accent-cyan);
             font-size: 0.9rem;
-            color: var(--text-color);
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
 
         .contact-section {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            padding: 2.25rem;
-            border-radius: 14px;
-            margin: 2.5rem auto;
-            max-width: 1200px;
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.2), rgba(0, 255, 245, 0.2));
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem 2rem;
             text-align: center;
-            box-shadow: var(--shadow);
-            border-left: 5px solid var(--accent-color);
-            opacity: 0;
-            animation: fadeIn 1s ease-out 0.9s forwards;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none"/><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+            opacity: 0.3;
         }
 
         .contact-section h2 {
-            font-size: 1.85rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.6rem, 4vw, 2.5rem);
             font-weight: 700;
             margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
         }
 
         .contact-section p {
-            font-size: 1.05rem;
-            color: #4a4a4a;
-            max-width: 620px;
-            margin: 0 auto 1.25rem;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
         }
 
         .contact-section .btn {
-            background: var(--accent-color);
-            color: #fff;
-            font-weight: 600;
-            padding: 0.65rem 1.3rem;
-            border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
+            color: var(--text-primary);
+            font-weight: 700;
+            padding: 1rem 2rem;
+            border-radius: 14px;
+            font-size: 1rem;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
-            gap: 0.6rem;
-            box-shadow: var(--shadow);
+            gap: 0.75rem;
+            box-shadow: 0 10px 40px rgba(157, 78, 221, 0.4);
+            position: relative;
+            z-index: 1;
+            border: none;
+            text-decoration: none;
         }
 
         .contact-section .btn:hover {
-            background: var(--accent-hover);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 50px rgba(157, 78, 221, 0.6);
+            color: var(--text-primary);
         }
 
         .contact-section .btn i {
             font-size: 1.2rem;
-            animation: pulse 1.5s infinite;
-        }
-
-        footer {
-            background: var(--card-bg);
-            padding: 2.5rem 0;
-            margin-top: 2.5rem;
-            border-top: 1px solid #e9ecef;
-            text-align: center;
-            opacity: 0;
-            animation: fadeIn 1s ease-out 1.2s forwards;
-        }
-
-        .footer-social a {
-            color: var(--text-color);
-            font-size: 1.5rem;
-            margin: 0 0.8rem;
-            transition: all 0.3s ease;
-        }
-
-        .footer-social a:hover {
-            color: var(--primary-color);
-            transform: scale(1.15);
-        }
-
-        .footer-text {
-            font-size: 1.05rem;
-            font-weight: 500;
-            color: #555;
-            margin-top: 0.8rem;
-        }
-
-        .footer-text strong {
-            color: var(--primary-color);
-        }
-
-        .footer-text a {
-            color: var(--primary-color);
-            text-decoration: none;
-        }
-
-        .footer-text a:hover {
-            text-decoration: underline;
-        }
-
-        .text-muted {
-            color: #6c757d;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
+            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); }
+            0%, 100% { transform: scale(1); }
             50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
         }
 
-        @keyframes fadeIn {
-            to { opacity: 1; transform: translateY(0); }
+        footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 1rem 1.5rem;
+            text-align: center;
+            opacity: 0;
+            animation: slideUp 0.8s ease-out 0.4s forwards;
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-social a {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .footer-social a:hover {
+            background: linear-gradient(135deg, var(--primary-gold), var(--accent-cyan));
+            color: var(--bg-dark);
+            transform: translateY(-4px) rotate(10deg);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .footer-text {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+            font-weight: 500;
+            line-height: 1.8;
+        }
+
+        .footer-text strong {
+            background: linear-gradient(135deg, var(--primary-gold), var(--accent-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+
+        .footer-text a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .footer-text a:hover {
+            color: var(--primary-gold);
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 992px) {
+            .features-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+            }
+            .feature-card {
+                padding: 1.5rem 1rem;
+            }
+            .feature-card h3 {
+                font-size: 1rem;
+            }
+            .feature-card p {
+                font-size: 0.85rem;
+            }
         }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .hero p { font-size: 1rem; }
-            .hero .developer-credit img { height: 20px; }
-            .features h2, .api-docs h2 { font-size: 1.75rem; }
-            .contact-section { padding: 1.75rem; }
-            .footer-social a { font-size: 1.3rem; }
-            .feature-popup { width: 80%; font-size: 0.9rem; }
-            .accordion-body pre { font-size: 0.85rem; }
-            .feature-icon { width: 50px; height: 50px; font-size: 1.8rem; }
-            .accordion-button .api-icon { width: 36px; height: 36px; font-size: 1.2rem; }
+            .hero-stats {
+                gap: 0.5rem;
+                padding: 0 0.25rem;
+            }
+            .stat-item {
+                padding: 0.75rem 0.5rem;
+                min-width: 80px;
+                border-radius: 12px;
+            }
+            .features-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.75rem;
+            }
+            .feature-card {
+                padding: 1rem 0.75rem;
+            }
+            .feature-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+            }
+            .feature-card h3 {
+                font-size: 0.85rem;
+                margin-bottom: 0.5rem;
+            }
+            .feature-card p {
+                font-size: 0.75rem;
+                line-height: 1.5;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-badge {
+                padding: 0.5rem 1rem;
+                font-size: 0.75rem;
+            }
+            .hero-badge img {
+                height: 18px;
+            }
+            .hero-stats {
+                gap: 0.4rem;
+            }
+            .features-grid {
+                gap: 0.5rem;
+            }
+            .feature-card {
+                padding: 0.85rem 0.5rem;
+            }
+            .feature-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 1rem;
+                border-radius: 10px;
+                margin-bottom: 0.75rem;
+            }
+            .feature-card h3 {
+                font-size: 0.75rem;
+            }
+            .feature-card p {
+                font-size: 0.7rem;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="animated-bg">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
     <section class="hero">
         <div class="container">
-            <div class="developer-credit">
-                <span><b>Developed by: Abir Arafat Chawdhury</b></span>
+            <div class="hero-badge">
+                <span><strong>Crafted by Abir Arafat Chawdhury</strong></span>
                 <img src="https://www.crossed-flag-pins.com/animated-flag-gif/gifs/Bangladesh_240-animated-flag-gifs.gif" alt="Bangladesh Flag">
             </div>
-            <h1 class="display-4 fw-bold">Smart Web Stream API</h1>
-            <p class="lead text-muted">Seamlessly stream and download Telegram files with a high-performance API, powered by Abir Arafat Chawdhury.</p>
-            <a href="https://t.me/AbirArafatChawdhury" class="btn">
-                Get Started with the API
-                <i class="fad fa-rocket-launch"></i>
-            </a>
+            <h1>Smart Web Stream API</h1>
+            <p class="hero-subtitle">Seamlessly stream and download Telegram files with a high-performance API. Powered by innovation and excellence.</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fad fa-bolt"></i>
+                    </div>
+                    <span class="stat-number">Fast</span>
+                    <span class="stat-label">Lightning Speed</span>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fad fa-shield-check"></i>
+                    </div>
+                    <span class="stat-number">Secure</span>
+                    <span class="stat-label">Protected</span>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fad fa-infinity"></i>
+                    </div>
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Always On</span>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section class="features">
+    <section class="main-content">
         <div class="container">
-            <h2>Why Choose Smart Web Stream API?</h2>
-            <div class="row">
-                <div class="col-md-4 col-sm-6">
+            <div class="features-section">
+                <h2>Why Choose Smart Web Stream API?</h2>
+                <div class="features-grid">
                     <div class="feature-card">
-                        <div class="feature-icon" style="background: var(--gradient-1);">
-                            <i class="fas fa-telegram"></i>
+                        <div class="feature-icon">
+                            <i class="fab fa-telegram-plane"></i>
                         </div>
                         <h3>Telegram Integration</h3>
                         <p>Directly access Telegram files using Telethon.</p>
-                        <div class="feature-popup">Leverages Telethon for robust Telegram API integration.</div>
                     </div>
-                </div>
-                <div class="col-md-4 col-sm-6">
                     <div class="feature-card">
-                        <div class="feature-icon" style="background: var(--gradient-2);">
-                            <i class="fas fa-play"></i>
+                        <div class="feature-icon">
+                            <i class="fad fa-play-circle"></i>
                         </div>
                         <h3>High-Speed Streaming</h3>
                         <p>Stream files with minimal latency and adaptive quality.</p>
-                        <div class="feature-popup">Optimized for real-time streaming with low latency.</div>
                     </div>
-                </div>
-                <div class="col-md-4 col-sm-6">
                     <div class="feature-card">
-                        <div class="feature-icon" style="background: var(--gradient-3);">
-                            <i class="fas fa-download"></i>
+                        <div class="feature-icon">
+                            <i class="fad fa-download"></i>
                         </div>
                         <h3>Secure Downloads</h3>
                         <p>Download files with secure code-based access.</p>
-                        <div class="feature-popup">Requires a valid code for secure file downloads.</div>
                     </div>
-                </div>
-                <div class="col-md-4 col-sm-6">
                     <div class="feature-card">
-                        <div class="feature-icon" style="background: var(--gradient-4);">
-                            <i class="fas fa-key"></i>
+                        <div class="feature-icon">
+                            <i class="fad fa-key"></i>
                         </div>
                         <h3>Code Authentication</h3>
                         <p>Protect file access with code-based validation.</p>
-                        <div class="feature-popup">Ensures only authorized users access files via unique codes.</div>
                     </div>
-                </div>
-                <div class="col-md-4 col-sm-6">
                     <div class="feature-card">
-                        <div class="feature-icon" style="background: var(--gradient-1);">
-                            <i class="fas fa-sliders"></i>
+                        <div class="feature-icon">
+                            <i class="fad fa-sliders-h"></i>
                         </div>
                         <h3>Range-Based Downloads</h3>
                         <p>Support for partial file downloads with range headers.</p>
-                        <div class="feature-popup">Efficiently handles large files with byte-range requests.</div>
                     </div>
-                </div>
-                <div class="col-md-4 col-sm-6">
                     <div class="feature-card">
-                        <div class="feature-icon" style="background: var(--gradient-2);">
-                            <i class="fas fa-exclamation-triangle"></i>
+                        <div class="feature-icon">
+                            <i class="fad fa-exclamation-triangle"></i>
                         </div>
-                        <h3>Error Handling</h3>
-                        <p>Robust error responses for invalid requests.</p>
-                        <div class="feature-popup">Clear error messages for 400, 401, 403, 404, 416, 500, 503 status codes.</div>
+                        <h3>Robust Error Handling</h3>
+                        <p>Clear responses for invalid requests and edge cases.</p>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <section class="api-docs">
-        <div class="container">
-            <h2>API Documentation</h2>
-            <div class="accordion" id="apiDocsAccordion">
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#homeMethod">
-                            <span class="api-icon" style="background: var(--gradient-1);">
-                                <i class="fas fa-home"></i>
-                            </span>
-                            GET /
-                        </button>
-                    </h2>
-                    <div id="homeMethod" class="accordion-collapse collapse" data-bs-parent="#apiDocsAccordion">
-                        <div class="accordion-body">
-                            <p>Retrieve the homepage of the Smart Web Stream API.</p>
-                            <p><strong>Parameters:</strong> None</p>
-                            <p><strong>Response:</strong> HTML content of the homepage</p>
-                            <pre>curl -X GET "http://147.93.19.133:8000/"</pre>
+            <div class="api-docs">
+                <h2>API Documentation</h2>
+                <div class="accordion" id="apiDocsAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#homeMethod">
+                                <div class="api-method-icon">
+                                    <i class="fad fa-home"></i>
+                                </div>
+                                GET /
+                            </button>
+                        </h2>
+                        <div id="homeMethod" class="accordion-collapse collapse" data-bs-parent="#apiDocsAccordion">
+                            <div class="accordion-body">
+                                <p>Retrieve the homepage of the Smart Web Stream API.</p>
+                                <p><strong>Parameters:</strong> None</p>
+                                <p><strong>Response:</strong> HTML content of the homepage</p>
+                                <pre>curl -X GET "http://your-api-url/"</pre>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#streamMethod">
-                            <span class="api-icon" style="background: var(--gradient-2);">
-                                <i class="fas fa-play"></i>
-                            </span>
-                            GET /stream/{file_id}
-                        </button>
-                    </h2>
-                    <div id="streamMethod" class="accordion-collapse collapse" data-bs-parent="#apiDocsAccordion">
-                        <div class="accordion-body">
-                            <p>Stream a Telegram file by its ID with code-based authentication.</p>
-                            <p><strong>Parameters:</strong> file_id (integer, required), code (string, required)</p>
-                            <p><strong>Response:</strong> HTML player page with streaming URL</p>
-                            <pre>curl -X GET "http://147.93.19.133:8000/stream/12345?code=abc123"</pre>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#streamMethod">
+                                <div class="api-method-icon">
+                                    <i class="fad fa-play"></i>
+                                </div>
+                                GET /stream/{file_id}
+                            </button>
+                        </h2>
+                        <div id="streamMethod" class="accordion-collapse collapse" data-bs-parent="#apiDocsAccordion">
+                            <div class="accordion-body">
+                                <p>Stream a Telegram file by its ID with code-based authentication.</p>
+                                <p><strong>Parameters:</strong> file_id (required), code (required)</p>
+                                <p><strong>Response:</strong> HTML player page with streaming URL</p>
+                                <pre>curl -X GET "http://your-api-url/stream/12345?code=abc123"</pre>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#downloadMethod">
-                            <span class="api-icon" style="background: var(--gradient-3);">
-                                <i class="fas fa-download"></i>
-                            </span>
-                            GET /dl/{file_id}
-                        </button>
-                    </h2>
-                    <div id="downloadMethod" class="accordion-collapse collapse" data-bs-parent="#apiDocsAccordion">
-                        <div class="accordion-body">
-                            <p>Download a Telegram file by its ID with code-based authentication.</p>
-                            <p><strong>Parameters:</strong> file_id (integer, required), code (string, required), Range (header, optional)</p>
-                            <p><strong>Response:</strong> File stream (partial if Range header provided)</p>
-                            <pre>curl -X GET "http://147.93.19.133:8000/dl/12345?code=abc123" \
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#downloadMethod">
+                                <div class="api-method-icon">
+                                    <i class="fad fa-download"></i>
+                                </div>
+                                GET /dl/{file_id}
+                            </button>
+                        </h2>
+                        <div id="downloadMethod" class="accordion-collapse collapse" data-bs-parent="#apiDocsAccordion">
+                            <div class="accordion-body">
+                                <p>Download a Telegram file by its ID with code-based authentication.</p>
+                                <p><strong>Parameters:</strong> file_id (required), code (required), Range (header, optional)</p>
+                                <p><strong>Response:</strong> File stream (partial if Range header provided)</p>
+                                <pre>curl -X GET "http://your-api-url/dl/12345?code=abc123" \
 -H "Range: bytes=0-1048575"</pre>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="contact-section">
+                <h2>Need Custom Bots & APIs? 🚀</h2>
+                <p>Craft bespoke Telegram bots and APIs in Python, PHP, Node.js, and more. Partner with us for elite, tailored solutions.</p>
+                <a href="https://t.me/AbirArafatChawdhury" class="btn">
+                    <span>Connect with Abir Arafat Chawdhury</span>
+                    <i class="fad fa-paper-plane-top"></i>
+                </a>
+            </div>
         </div>
     </section>
 
-    <section class="contact-section" id="contact">
+    <footer>
         <div class="container">
-            <h2>Need Custom Bots & APIs? 🧩</h2>
-            <p>Craft bespoke Telegram bots and APIs in Python, PHP, Node.js, and more. Partner with us for elite, tailored solutions.</p>
-            <a href="https://t.me/AbirArafatChawdhury" class="btn">
-                Connect with Abir Arafat Chawdhury
-                <i class="fad fa-paper-plane-top"></i>
-            </a>
-        </div>
-    </section>
-
-    <footer class="text-center">
-        <div class="container">
-            <div class="footer-social mb-3">
-                <a href="https://github.com/TheSmartDevs" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://facebook.com/abirxdhackz" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
-                <a href="https://instagram.com/abirxdhackz" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://twitter.com/abirxdhackz" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
-                <a href="https://youtube.com/@abirxdhackz" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
-                <a href="https://t.me/AbirArafatChawdhury" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
+            <div class="footer-social">
+                <a href="https://github.com/TheSmartDevs" target="_blank" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://facebook.com/abirxdhackz" target="_blank" title="Facebook">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="https://instagram.com/abirxdhackz" target="_blank" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://twitter.com/abirxdhackz" target="_blank" title="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://youtube.com/@abirxdhackz" target="_blank" title="YouTube">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="https://t.me/AbirArafatChawdhury" target="_blank" title="Telegram">
+                    <i class="fab fa-telegram"></i>
+                </a>
             </div>
             <p class="footer-text">
-                Crafted with <strong>passion</strong> by <a href="https://t.me/AbirArafatChawdhury" target="_blank">Abir Arafat Chawdhury 🇧🇩</a> | Join our <strong>community</strong>: <a href="https://t.me/TheSmartDev" target="_blank">t.me/TheSmartDev</a>
+                Built with <strong>passion</strong> and <strong>innovation</strong> by <a href="https://t.me/AbirArafatChawdhury" target="_blank">Abir Arafat Chawdhury 🇧🇩</a>
+                <br>
+                Join our thriving <strong>developer community</strong>: <a href="https://t.me/TheSmartDev" target="_blank">t.me/TheSmartDev</a>
             </p>
-            <p class="text-muted mt-2">© 2025 Smart Web Stream. All rights reserved.</p>
+            <div class="copyright">
+                © 2026 Smart Web Stream API. All Rights Reserved. | Engineered with Excellence
+            </div>
         </div>
     </footer>
 
